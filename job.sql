@@ -500,7 +500,78 @@ mysql> select * from dependants;
 |       3 | electronics    |
 |       4 | bio technology |
 +---------+----------------+
+9) SELECT AVG(avg_salary) AS average_department_salary FROM (     SELECT AVG(salary) AS avg_salary     FROM employees     GROUP BY depart_id ) AS subquery_alias;
++---------------------------+
+| average_department_salary |
++---------------------------+
+|           145333.33335000 |
++---------------------------+
 
+
+
+10)SELECT emp_id,      salary,      (salary - (SELECT AVG(salary) FROM employees)) AS salary_difference,     (SELECT AVG(salary) FROM employees) AS average_salary FROM employees;
++--------+--------+-------------------+----------------+
+| emp_id | salary | salary_difference | average_salary |
++--------+--------+-------------------+----------------+
+|      1 | 300000 |        83500.0000 |    216500.0000 |
+|    600 | 560000 |       343500.0000 |    216500.0000 |
+|    601 |   3000 |      -213500.0000 |    216500.0000 |
+|    604 |   3000 |      -213500.0000 |    216500.0000 |
++--------+--------+-------------------+----------------+
+
+11)SELECT    depart_id, emp_id, fname,lname,salary  FROM employees   WHERE  salary > (SELECT AVG(salary) FROM employees WHERE department.dept_id = emoloyees.depart_id );
+
+12)SELECT employees.* FROM employees LEFT JOIN dependent ON employees.emp_id = dependent.emp_id WHERE dependent.emp_id IS NULL;
++--------+-------+--------+-------------------+------------+------------+--------+--------+------------+-----------+
+| emp_id | fname | lname  | email             | pno        | hdate      | job_id | salary | manager_id | depart_id |
++--------+-------+--------+-------------------+------------+------------+--------+--------+------------+-----------+
+|      1 | zamil | rahman | zamil12@gmail.com | 2345678921 | 2022-03-08 |    106 | 300000 |       NULL |         5 |
+|    601 | sujay | pp     | sujay@gmail.com   | 3421345632 | 2021-05-08 |    105 |   3000 |          1 |         5 |
++--------+-------+--------+-------------------+------------+------------+--------+--------+------------+-----------+
+
+
+
+13)SELECT employees.fname,employees.lname, department.dept_name FROM employees JOIN department ON employees.depart_id = department.dept_id
+WHERE  department.dept_id IN (1, 2, 3);
++---------+--------+-------------+
+| fname   | lname  | dept_name   |
++---------+--------+-------------+
+| aswathi | murali | electronics |
+| aswani  | murali | software    |
++---------+--------+-------------+
+
+
+
+
+14) SELECT emp.fname, emp.lname, emp.depart_id, dep.dept_name FROM  employees emp JOIN department dep ON emp.depart_id = dep.dept_id WHERE emp.depart_id IN (1, 2, 3) AND emp.salary > 10000;
++---------+--------+-----------+-------------+
+| fname   | lname  | depart_id | dept_name   |
++---------+--------+-----------+-------------+
+| aswathi | murali |         2 | electronics |
+| aswani  | murali |         1 | software    |
++---------+--------+-----------+-------------+
+
+
+
+
+
+
+
+
+
+
+15)SELECT
+    dep.dept_name,
+    dep.street_address,
+    dep.postal_code,
+    cou.country_name,
+    reg.region_name
+FROM
+    department dep
+JOIN
+    country cou ON dep.country_id = cou.country_id
+JOIN
+    region reg ON cou.region_id = reg.region_id;
 
 
 
