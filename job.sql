@@ -500,6 +500,7 @@ mysql> select * from dependants;
 |       3 | electronics    |
 |       4 | bio technology |
 +---------+----------------+
+  
 
 
 
